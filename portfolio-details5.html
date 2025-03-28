@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李学熙作品集 - 渲染</title>
+    <style>
+        :root {
+            --primary-color: #2A5C82;
+            --secondary-color: #7D9DAA;
+            --accent-color: #FF7F50;
+            --light-bg: #F8F9FA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans SC', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--primary-color);
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--light-bg);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link i {
+            margin-right: 8px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .portfolio-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .portfolio-title {
+            font-size: 2.2em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .portfolio-category {
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .portfolio-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            text-align: center;
+        }
+
+        .meta-label {
+            font-size: 0.9em;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .meta-value {
+            font-weight: 500;
+        }
+
+        .portfolio-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        .portfolio-description {
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 宽高比 */
+            height: 0;
+            overflow: hidden;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .video-container iframe,
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .portfolio-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .details-section {
+            margin-bottom: 20px;
+        }
+
+        .details-title {
+            font-size: 1.2em;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .details-list {
+            list-style: none;
+        }
+
+        .details-list li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .details-list li::before {
+            content: "•";
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .portfolio-footer {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .nav-link {
+            padding: 10px 20px;
+            background: white;
+            border-radius: 30px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .portfolio-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i>返回简历</a>
+
+    <div class="portfolio-header">
+        <h1 class="portfolio-title">渲染</h1>
+    </div>
+
+    <div class="portfolio-content">
+        <!-- 视频容器 - 使用本地视频文件 -->
+        <div class="video-container">
+            <video controls autoplay muted>
+                <source src="Rendering/1.mp4" type="video/mp4">
+                您的浏览器不支持 HTML5 视频标签。
+            </video>
+        </div>
+
+        <!-- 或者使用嵌入的在线视频 (如YouTube/Vimeo) -->
+        <!-- 
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/您的视频ID" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        -->
+    </div>
+
+    <div class="portfolio-footer">
+        <div class="nav-links">
+            <a href="portfolio-details4.html" class="nav-link"><i class="fas fa-chevron-left"></i> 上一个项目</a>
+            <a href="index.html" class="nav-link">返回简历</a>
+            <a href="portfolio-details6.html" class="nav-link">下一个项目 <i class="fas fa-chevron-right"></i></a>
+        </div>
+    </div>
+</body>
+</html>

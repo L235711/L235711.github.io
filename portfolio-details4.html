@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李学熙作品集 - 详情页</title>
+    <style>
+        :root {
+            --primary-color: #2A5C82;
+            --secondary-color: #7D9DAA;
+            --accent-color: #FF7F50;
+            --light-bg: #F8F9FA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans SC', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: var(--primary-color);
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--light-bg);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link i {
+            margin-right: 8px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .portfolio-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .portfolio-title {
+            font-size: 2.2em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .portfolio-category {
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        /* Gallery Container with Box */
+        .gallery-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        /* Horizontal Gallery Layout */
+        .gallery-container {
+            width: 100%;
+            overflow-x: auto;
+            padding: 20px 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--secondary-color) var(--light-bg);
+        }
+
+        .gallery-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .gallery-container::-webkit-scrollbar-track {
+            background: var(--light-bg);
+            border-radius: 10px;
+        }
+
+        .gallery-container::-webkit-scrollbar-thumb {
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+        }
+
+        .portfolio-gallery {
+            display: flex;
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .gallery-item {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 70vh;
+            cursor: zoom-in;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-img {
+            height: 100%;
+            width: auto;
+            max-width: none;
+            object-fit: contain;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 4px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            overflow: auto;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        .modal-content {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* 改为flex-start让内容从顶部开始 */
+            min-height: 100%; /* 确保容器足够高 */
+            padding: 60px 0; /* 添加上下内边距 */
+        }
+
+        .modal-img {
+            width: 50%;
+            height: auto;
+            max-height: none;
+            object-fit: contain;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close:hover {
+            color: var(--accent-color);
+        }
+
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            transition: 0.3s;
+            user-select: none;
+        }
+
+        .next {
+            right: 20px;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev {
+            left: 20px;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        /* Content sections */
+        .portfolio-content {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+        }
+
+        .portfolio-description {
+            margin: 40px 0;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .portfolio-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .details-section {
+            margin-bottom: 30px;
+        }
+
+        .details-title {
+            font-size: 1.3em;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent-color);
+            text-align: center;
+        }
+
+        .details-list {
+            list-style: none;
+        }
+
+        .details-list li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .details-list li::before {
+            content: "•";
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        /* Footer navigation */
+        .portfolio-footer {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .nav-link {
+            padding: 12px 25px;
+            background: white;
+            border-radius: 30px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .gallery-item {
+                height: 50vh;
+            }
+            
+            .portfolio-content, .gallery-box {
+                padding: 25px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .prev, .next {
+                font-size: 18px;
+                padding: 10px;
+            }
+            
+            .close {
+                font-size: 28px;
+                top: 15px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i>返回简历</a>
+
+    <div class="portfolio-header">
+        <h1 class="portfolio-title">详情页</h1>
+        <p class="portfolio-category">横向滚动浏览 - 点击图片可全屏查看</p>
+    </div>
+
+    <!-- Gallery Box Container -->
+    <div class="gallery-box">
+        <div class="gallery-container">
+            <div class="portfolio-gallery">
+                <div class="gallery-item" onclick="openModal(1)">
+                    <img src="Details page/Image001.jpg" class="gallery-img">
+                </div>
+                <div class="gallery-item" onclick="openModal(2)">
+                    <img src="Details page/Image002.jpg" class="gallery-img">
+                </div>
+                <div class="gallery-item" onclick="openModal(3)">
+                    <img src="Details page/Image003.jpg" class="gallery-img">
+                </div>
+                <div class="gallery-item" onclick="openModal(4)">
+                    <img src="Details page/Image004.jpg" class="gallery-img">
+                </div>
+                <div class="gallery-item" onclick="openModal(5)">
+                    <img src="Details page/Image005.jpg" class="gallery-img">
+                </div>
+                <div class="gallery-item" onclick="openModal(6)">
+                    <img src="Details page/Image006.jpg" class="gallery-img">
+                </div>
+                <div class="gallery-item" onclick="openModal(7)">
+                    <img src="Details page/Image007.jpg" class="gallery-img">
+                </div>
+                <div class="gallery-item" onclick="openModal(8)">
+                    <img src="Details page/Image008.jpg" class="gallery-img">
+                </div>
+                <div class="gallery-item" onclick="openModal(9)">
+                    <img src="Details page/Image009.jpg" class="gallery-img">
+                </div>
+                <div class="gallery-item" onclick="openModal(10)">
+                    <img src="Details page/Image010.jpg" class="gallery-img">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        <div class="modal-content">
+            <img id="modalImage" class="modal-img">
+        </div>
+    </div>
+
+    <div class="portfolio-content">
+        <div class="portfolio-description">
+            <h2 class="details-title">项目详情</h2>
+            <p>本详情页采用横向滚动布局展示高分辨率图片，每张图片垂直居中显示并保持原始比例。左右滑动浏览图片，点击任意图片可全屏查看细节。</p>
+        </div>
+
+        <div class="portfolio-details">
+            <div class="details-section">
+                <h2 class="details-title">展示特点</h2>
+                <ul class="details-list">
+                    <li>横向滚动浏览多张图片</li>
+                    <li>图片垂直居中显示</li>
+                    <li>保持原始比例不压缩</li>
+                    <li>点击图片全屏查看细节</li>
+                    <li>响应式设计适配各种设备</li>
+                </ul>
+            </div>
+
+            <div class="details-section">
+                <h2 class="details-title">交互说明</h2>
+                <ul class="details-list">
+                    <li>左右滑动或拖动鼠标横向滚动</li>
+                    <li>点击图片进入全屏模式</li>
+                    <li>全屏模式下使用左右箭头切换</li>
+                    <li>按ESC键或点击×关闭全屏</li>
+                    <li>移动设备支持手势操作</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="portfolio-footer">
+        <div class="nav-links">
+            <a href="portfolio-details3.html" class="nav-link"><i class="fas fa-chevron-left"></i> 上一个项目</a>
+            <a href="index.html" class="nav-link">返回简历</a>
+            <a href="portfolio-details5.html" class="nav-link">下一个项目 <i class="fas fa-chevron-right"></i></a>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        let currentSlide = 1;
+        const totalSlides = 10;
+        
+        function openModal(n) {
+            currentSlide = n;
+            document.getElementById('imageModal').style.display = "block";
+            document.getElementById('modalImage').src = document.querySelectorAll('.gallery-img')[n-1].src;
+            document.body.style.overflow = "hidden";
+        }
+        
+        function closeModal() {
+            document.getElementById('imageModal').style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+        
+        function plusSlides(n) {
+            currentSlide += n;
+            if (currentSlide > totalSlides) currentSlide = 1;
+            if (currentSlide < 1) currentSlide = totalSlides;
+            document.getElementById('modalImage').src = document.querySelectorAll('.gallery-img')[currentSlide-1].src;
+        }
+        
+        // Close modal when clicking outside image
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const modal = document.getElementById('imageModal');
+            if (modal.style.display === "block") {
+                if (e.key === 'Escape') {
+                    closeModal();
+                } else if (e.key === 'ArrowLeft') {
+                    plusSlides(-1);
+                } else if (e.key === 'ArrowRight') {
+                    plusSlides(1);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
