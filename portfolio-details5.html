@@ -106,6 +106,25 @@
             margin-bottom: 30px;
             border-radius: 8px;
             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            background: #f0f0f0;
+        }
+
+        .video-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            z-index: 1;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
         .video-container iframe,
@@ -116,6 +135,52 @@
             width: 100%;
             height: 100%;
             border: none;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .video-container video.loaded {
+            opacity: 1;
+        }
+
+        .video-poster {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 3;
+            cursor: pointer;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background-color: rgba(255, 127, 80, 0.8);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 4;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .play-button:hover {
+            background-color: rgba(255, 127, 80, 1);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .play-button i {
+            color: white;
+            font-size: 30px;
+            margin-left: 5px;
         }
 
         .portfolio-details {
@@ -192,6 +257,15 @@
                 flex-direction: column;
                 gap: 15px;
             }
+
+            .play-button {
+                width: 60px;
+                height: 60px;
+            }
+
+            .play-button i {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
@@ -204,11 +278,15 @@
 
     <div class="portfolio-content">
         <!-- 视频容器 - 使用本地视频文件 -->
-        <div class="video-container">
-            <video controls autoplay muted>
+        <div class="video-container" id="videoContainer">
+            <video id="renderVideo" preload="metadata">
                 <source src="Rendering/1.mp4" type="video/mp4">
                 您的浏览器不支持 HTML5 视频标签。
             </video>
+            <img src="Rendering/Studio Setup A.jpg" class="video-poster" id="videoPoster" alt="渲染视频封面">
+            <div class="play-button" id="playButton">
+                <i class="fas fa-play"></i>
+            </div>
         </div>
 
         <!-- 或者使用嵌入的在线视频 (如YouTube/Vimeo) -->
@@ -226,5 +304,53 @@
             <a href="portfolio-details6.html" class="nav-link">下一个项目 <i class="fas fa-chevron-right"></i></a>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoContainer = document.getElementById('videoContainer');
+            const video = document.getElementById('renderVideo');
+            const videoPoster = document.getElementById('videoPoster');
+            const playButton = document.getElementById('playButton');
+            
+            // 预加载视频元数据
+            video.load();
+            
+            // 点击播放按钮
+            playButton.addEventListener('click', function() {
+                videoPoster.style.display = 'none';
+                playButton.style.display = 'none';
+                video.play();
+                video.classList.add('loaded');
+            });
+            
+            // 点击视频封面
+            videoPoster.addEventListener('click', function() {
+                videoPoster.style.display = 'none';
+                playButton.style.display = 'none';
+                video.play();
+                video.classList.add('loaded');
+            });
+            
+            // 视频加载完成后隐藏加载动画
+            video.addEventListener('loadeddata', function() {
+                videoContainer.style.background = 'none';
+            });
+            
+            // 视频结束后显示封面和播放按钮
+            video.addEventListener('ended', function() {
+                videoPoster.style.display = 'block';
+                playButton.style.display = 'flex';
+            });
+            
+            // 如果视频可以自动播放，则隐藏封面和按钮
+            video.addEventListener('canplaythrough', function() {
+                if (video.autoplay) {
+                    videoPoster.style.display = 'none';
+                    playButton.style.display = 'none';
+                    video.classList.add('loaded');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

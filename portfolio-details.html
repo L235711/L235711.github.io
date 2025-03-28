@@ -109,17 +109,112 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            background: #f0f0f0;
+            aspect-ratio: 1/1;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
         }
 
         .gallery-img {
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: cover;
             display: block;
-            transition: transform 0.3s;
         }
 
-        .gallery-item:hover .gallery-img {
-            transform: scale(1.03);
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 20px;
+            position: relative;
+        }
+
+        .modal-img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            animation: zoomIn 0.3s;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 1001;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-color);
+        }
+
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            transition: 0.3s;
+            user-select: none;
+            background-color: rgba(0,0,0,0.3);
+            border-radius: 50%;
+            z-index: 1001;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 1.2em;
         }
 
         .portfolio-details {
@@ -200,6 +295,17 @@
                 flex-direction: column;
                 gap: 15px;
             }
+            
+            .prev, .next {
+                font-size: 18px;
+                padding: 10px;
+            }
+            
+            .close-btn {
+                font-size: 28px;
+                top: 15px;
+                right: 20px;
+            }
         }
     </style>
 </head>
@@ -212,58 +318,68 @@
 
     <div class="portfolio-content">
         <div class="portfolio-gallery">
-            <div class="gallery-item">
-                <img src="Packaging Design/Image001.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image001.jpg', 1)">
+                <img src="Packaging Design/Image001-lowres.jpg" class="gallery-img" alt="包装设计作品1">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image002.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image002.jpg', 2)">
+                <img src="Packaging Design/Image002-lowres.jpg" class="gallery-img" alt="包装设计作品2">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image003.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image003.jpg', 3)">
+                <img src="Packaging Design/Image003-lowres.jpg" class="gallery-img" alt="包装设计作品3">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image004.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image004.jpg', 4)">
+                <img src="Packaging Design/Image004-lowres.jpg" class="gallery-img" alt="包装设计作品4">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image005.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image005.jpg', 5)">
+                <img src="Packaging Design/Image005-lowres.jpg" class="gallery-img" alt="包装设计作品5">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image006.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image006.jpg', 6)">
+                <img src="Packaging Design/Image006-lowres.jpg" class="gallery-img" alt="包装设计作品6">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image007.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image007.jpg', 7)">
+                <img src="Packaging Design/Image007-lowres.jpg" class="gallery-img" alt="包装设计作品7">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image008.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image008.jpg', 8)">
+                <img src="Packaging Design/Image008-lowres.jpg" class="gallery-img" alt="包装设计作品8">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image009.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image009.jpg', 9)">
+                <img src="Packaging Design/Image009-lowres.jpg" class="gallery-img" alt="包装设计作品9">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image010.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image010.jpg', 10)">
+                <img src="Packaging Design/Image010-lowres.jpg" class="gallery-img" alt="包装设计作品10">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image011.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image011.jpg', 11)">
+                <img src="Packaging Design/Image011-lowres.jpg" class="gallery-img" alt="包装设计作品11">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image012.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image012.jpg', 12)">
+                <img src="Packaging Design/Image012-lowres.jpg" class="gallery-img" alt="包装设计作品12">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image013.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image013.jpg', 13)">
+                <img src="Packaging Design/Image013-lowres.jpg" class="gallery-img" alt="包装设计作品13">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image014.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image014.jpg', 14)">
+                <img src="Packaging Design/Image014-lowres.jpg" class="gallery-img" alt="包装设计作品14">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image015.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image015.jpg', 15)">
+                <img src="Packaging Design/Image015-lowres.jpg" class="gallery-img" alt="包装设计作品15">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image016.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image016.jpg', 16)">
+                <img src="Packaging Design/Image016-lowres.jpg" class="gallery-img" alt="包装设计作品16">
             </div>
-            <div class="gallery-item">
-                <img src="Packaging Design/Image017.jpg" class="gallery-img">
+            <div class="gallery-item" onclick="openModal('Packaging Design/Image017.jpg', 17)">
+                <img src="Packaging Design/Image017-lowres.jpg" class="gallery-img" alt="包装设计作品17">
             </div>
         </div>
+    </div>
+
+    <!-- 模态框 -->
+    <div id="imageModal" class="modal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next" onclick="changeSlide(1)">&#10095;</a>
+        <div class="modal-content">
+            <p class="loading-text">加载中...</p>
+            <img id="modalImage" class="modal-img" style="display:none;">
         </div>
     </div>
 
@@ -274,5 +390,104 @@
             <a href="portfolio-details2.html" class="nav-link">下一个项目 <i class="fas fa-chevron-right"></i></a>
         </div>
     </div>
+
+    <script>
+        // 图片路径数组
+        const imagePaths = [
+            'Packaging Design/Image001.jpg',
+            'Packaging Design/Image002.jpg',
+            'Packaging Design/Image003.jpg',
+            'Packaging Design/Image004.jpg',
+            'Packaging Design/Image005.jpg',
+            'Packaging Design/Image006.jpg',
+            'Packaging Design/Image007.jpg',
+            'Packaging Design/Image008.jpg',
+            'Packaging Design/Image009.jpg',
+            'Packaging Design/Image010.jpg',
+            'Packaging Design/Image011.jpg',
+            'Packaging Design/Image012.jpg',
+            'Packaging Design/Image013.jpg',
+            'Packaging Design/Image014.jpg',
+            'Packaging Design/Image015.jpg',
+            'Packaging Design/Image016.jpg',
+            'Packaging Design/Image017.jpg'
+        ];
+        
+        let currentSlide = 1;
+        const totalSlides = imagePaths.length;
+        
+        function openModal(imageSrc, slideIndex) {
+            currentSlide = slideIndex;
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const loadingText = document.querySelector('.loading-text');
+            
+            modal.style.display = "block";
+            modalImg.style.display = "none";
+            loadingText.style.display = "block";
+            
+            // 预加载高清图片
+            const highResImg = new Image();
+            highResImg.onload = function() {
+                modalImg.src = this.src;
+                loadingText.style.display = "none";
+                modalImg.style.display = "block";
+            };
+            highResImg.src = imageSrc;
+            
+            document.body.style.overflow = "hidden";
+        }
+        
+        function closeModal() {
+            document.getElementById('imageModal').style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+        
+        function changeSlide(n) {
+            // 阻止事件冒泡，防止点击按钮时也触发模态框关闭
+            event.stopPropagation();
+            
+            currentSlide += n;
+            if (currentSlide > totalSlides) currentSlide = 1;
+            if (currentSlide < 1) currentSlide = totalSlides;
+            
+            const modalImg = document.getElementById('modalImage');
+            const loadingText = document.querySelector('.loading-text');
+            
+            modalImg.style.display = "none";
+            loadingText.style.display = "block";
+            
+            // 预加载下一张高清图片
+            const highResImg = new Image();
+            highResImg.onload = function() {
+                modalImg.src = this.src;
+                loadingText.style.display = "none";
+                modalImg.style.display = "block";
+            };
+            highResImg.src = imagePaths[currentSlide - 1];
+        }
+        
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+        
+        // 键盘导航
+        document.addEventListener('keydown', function(e) {
+            const modal = document.getElementById('imageModal');
+            if (modal.style.display === "block") {
+                if (e.key === 'Escape') {
+                    closeModal();
+                } else if (e.key === 'ArrowLeft') {
+                    changeSlide(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changeSlide(1);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
